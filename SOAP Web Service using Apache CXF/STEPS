@@ -1,0 +1,188 @@
+Practical 2 — SOAP Web Service using Apache CXF
+1️⃣ Install Required Software
+Check Java
+java -version
+javac -version
+
+If not installed:
+
+winget install Oracle.JDK.17
+Install Maven
+
+Check:
+
+mvn -version
+
+If not installed:
+
+winget install Apache.Maven
+
+Verify:
+
+mvn -version
+2️⃣ Create Maven Project
+
+Open VS Code terminal and run:
+
+mvn archetype:generate -DgroupId=com.example -DartifactId=SimpleSOAPService -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+This creates project folder:
+
+SimpleSOAPService
+
+Move into project:
+
+cd SimpleSOAPService
+3️⃣ Open Project in VS Code
+
+Run:
+
+code .
+4️⃣ Add Apache CXF Dependency
+
+Open pom.xml and add inside <dependencies>:
+
+<dependency>
+ <groupId>org.apache.cxf</groupId>
+ <artifactId>cxf-rt-frontend-jaxws</artifactId>
+ <version>3.4.5</version>
+</dependency>
+
+<dependency>
+ <groupId>org.apache.cxf</groupId>
+ <artifactId>cxf-rt-transports-http</artifactId>
+ <version>3.4.5</version>
+</dependency>
+
+This enables SOAP web service support. 
+
+CLOUD COMPUTING AND WEB SERVICE…
+
+5️⃣ Create Service Interface
+
+Go to:
+
+src/main/java/com/example
+
+Create file:
+
+CalculatorService.java
+
+Code:
+
+package com.example;
+
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+
+@WebService
+public interface CalculatorService {
+
+ @WebMethod
+ int add(int num1, int num2);
+
+ @WebMethod
+ int subtract(int num1, int num2);
+}
+6️⃣ Implement the Service
+
+Create file:
+
+CalculatorServiceImpl.java
+
+Code:
+
+package com.example;
+
+import javax.jws.WebService;
+
+@WebService(endpointInterface = "com.example.CalculatorService")
+
+public class CalculatorServiceImpl implements CalculatorService {
+
+ public int add(int num1, int num2) {
+  return num1 + num2;
+ }
+
+ public int subtract(int num1, int num2) {
+  return num1 - num2;
+ }
+}
+7️⃣ Create Server Class
+
+Create file:
+
+Server.java
+
+Code:
+
+package com.example;
+
+import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
+
+public class Server {
+
+ public static void main(String[] args) {
+
+  JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
+
+  factory.setServiceClass(CalculatorService.class);
+  factory.setAddress("http://localhost:8080/CalculatorService");
+  factory.setServiceBean(new CalculatorServiceImpl());
+
+  factory.create();
+
+  System.out.println("SOAP Service Started at http://localhost:8080/CalculatorService");
+ }
+}
+8️⃣ Build the Project
+
+Run:
+
+mvn clean install
+9️⃣ Run the SOAP Server
+
+Run:
+
+mvn exec:java -Dexec.mainClass="com.example.Server"
+
+Output:
+
+SOAP Service Started at http://localhost:8080/CalculatorService
+🔟 Open WSDL in Browser
+
+Open:
+
+http://localhost:8080/CalculatorService?wsdl
+
+You will see WSDL XML file describing the SOAP service. 
+
+CLOUD COMPUTING AND WEB SERVICE…
+
+1️⃣1️⃣ Test SOAP Request
+
+Example SOAP request:
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:ser="http://example.com/">
+
+ <soapenv:Header/>
+
+ <soapenv:Body>
+  <ser:add>
+   <num1>10</num1>
+   <num2>5</num2>
+  </ser:add>
+ </soapenv:Body>
+
+</soapenv:Envelope>
+
+Response:
+
+15
+Expected Output
+SOAP Service Started at http://localhost:8080/CalculatorService
+
+Browser shows:
+
+CalculatorService?wsdl

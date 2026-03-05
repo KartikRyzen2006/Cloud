@@ -1,0 +1,140 @@
+Practical 3 — Steps in VS Code
+1️⃣ Install Python
+
+Check if Python is installed:
+
+python --version
+
+or
+
+python3 --version
+
+If not installed (Windows):
+
+winget install Python.Python.3
+
+Verify again:
+
+python --version
+2️⃣ Install Flask
+
+Run in terminal:
+
+pip install flask
+
+Verify installation:
+
+pip show flask
+3️⃣ Create Project Folder
+mkdir flask-rest-service
+cd flask-rest-service
+
+Open it in VS Code:
+
+code .
+4️⃣ Create Python File
+
+Create a file:
+
+app.py
+5️⃣ Write Flask REST API Code
+
+Paste this code inside app.py:
+
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+# Sample data
+data = [
+    {'id': 1, 'name': 'Item 1'},
+    {'id': 2, 'name': 'Item 2'}
+]
+
+# Get all items
+@app.route('/items', methods=['GET'])
+def get_items():
+    return jsonify({'items': data})
+
+# Get item by ID
+@app.route('/items/<int:item_id>', methods=['GET'])
+def get_item(item_id):
+    item = next((item for item in data if item['id'] == item_id), None)
+    if item:
+        return jsonify({'item': item})
+    else:
+        return jsonify({'message': 'Item not found'}), 404
+
+# Add new item
+@app.route('/items', methods=['POST'])
+def add_item():
+    new_item = {
+        'id': len(data) + 1,
+        'name': request.json['name']
+    }
+    data.append(new_item)
+    return jsonify({'message': 'Item added successfully', 'item': new_item}), 201
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+This code creates REST API endpoints using Flask. 
+
+CLOUD COMPUTING AND WEB SERVICE…
+
+6️⃣ Run the Flask Server
+
+Run:
+
+python app.py
+
+Output:
+
+Running on http://127.0.0.1:5000/
+7️⃣ Test API
+Get All Items
+
+Open browser or terminal:
+
+http://127.0.0.1:5000/items
+
+Response:
+
+{
+ "items": [
+  {"id":1,"name":"Item 1"},
+  {"id":2,"name":"Item 2"}
+ ]
+}
+Get Item by ID
+http://127.0.0.1:5000/items/1
+
+Response:
+
+{
+ "item": {"id":1,"name":"Item 1"}
+}
+Add New Item (POST Request)
+
+Using Postman or curl:
+
+curl -X POST http://127.0.0.1:5000/items \
+-H "Content-Type: application/json" \
+-d '{"name":"New Item"}'
+
+Response:
+
+{
+ "message": "Item added successfully",
+ "item": {"id":3,"name":"New Item"}
+}
+Expected Output
+
+Terminal shows:
+
+Running on http://127.0.0.1:5000/
+
+API endpoints working:
+
+/items
+/items/1

@@ -1,0 +1,55 @@
+1️⃣ Install Java and Maven
+winget install Oracle.JDK.17
+winget install Apache.Maven
+
+Verify:
+
+java -version
+mvn -version
+2️⃣ Create Maven Project
+mvn archetype:generate \
+-DgroupId=com.example \
+-DartifactId=aws-flow-demo \
+-DarchetypeArtifactId=maven-archetype-quickstart \
+-DinteractiveMode=false
+
+Go inside project:
+
+cd aws-flow-demo
+3️⃣ Add AWS Dependencies
+
+Edit pom.xml and add:
+
+<dependency>
+ <groupId>software.amazon.awssdk</groupId>
+ <artifactId>aws-sdk-java</artifactId>
+</dependency>
+
+<dependency>
+ <groupId>software.amazon.aws</groupId>
+ <artifactId>aws-flow-sdk</artifactId>
+ <version>2.x</version>
+</dependency>
+4️⃣ Configure AWS Credentials
+
+Install AWS CLI:
+
+winget install Amazon.AWSCLI
+
+Configure:
+
+aws configure
+
+Enter:
+
+Access Key
+Secret Key
+Region
+5️⃣ Build Project
+mvn clean install
+6️⃣ Run Worker
+mvn exec:java -Dexec.mainClass="com.example.WorkerStarter"
+
+Expected output:
+
+Hello, World!

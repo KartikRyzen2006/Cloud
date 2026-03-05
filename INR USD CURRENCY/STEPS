@@ -1,0 +1,181 @@
+//Practical 1 – Steps to Perform in VS Code//
+1️⃣ Install Required Software
+
+Before starting, make sure these are installed:
+
+Node.js
+
+VS Code
+
+Postman (for testing)
+
+Java JDK 11+
+
+.NET SDK
+
+Your manual lists these as software requirements. 
+
+CLOUD COMPUTING AND WEB SERVICE…
+
+//PART A — Create Web Service (Node.js)//
+Step 1 — Open VS Code
+
+Open VS Code
+
+Click File → Open Folder
+
+Create a new folder
+Example:
+
+currency-service
+Step 2 — Open Terminal in VS Code
+
+Press:
+
+Ctrl + `
+
+or
+
+Terminal → New Terminal
+Step 3 — Initialize Node Project
+
+Run this command:
+
+npm init -y
+
+This creates:
+
+package.json
+Step 4 — Install Required Packages
+
+Run:
+
+npm install express body-parser
+
+This installs the libraries required for the web service.
+
+Step 5 — Create Server File
+
+Create a new file:
+
+server.js
+
+Paste this code:
+
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.json());
+
+app.post('/convert', (req, res) => {
+ const amountInRs = req.body.amount_in_rs;
+
+ const conversionRate = 0.0145;
+ const amountInUsd = amountInRs * conversionRate;
+
+ res.json({ amount_in_usd: amountInUsd });
+});
+
+app.listen(port, () => {
+ console.log(`Currency conversion service is running at http://localhost:${port}`);
+});
+
+This code creates the INR → USD converter API. 
+
+CLOUD COMPUTING AND WEB SERVICE…
+
+Step 6 — Run the Server
+
+In VS Code terminal run:
+
+node server.js
+
+Output:
+
+Currency conversion service is running at http://localhost:3000
+
+//PART B — Test API Using Postman//
+Step 7 — Open Postman
+
+Select POST method
+
+Enter URL:
+
+http://localhost:3000/convert
+Step 8 — Add Request Body
+
+Go to:
+
+Body → Raw → JSON
+
+Write:
+
+{
+ "amount_in_rs": 1000
+}
+
+Click Send
+
+Step 9 — Output
+
+You will get:
+
+{
+ "amount_in_usd": 14.5
+}
+
+Because conversion rate used:
+
+1 INR = 0.0145 USD
+//PART C — Run Java Client//
+
+Create file:
+
+JavaClient.java
+
+Paste code:
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+public class JavaClient {
+ public static void main(String[] args) throws Exception {
+
+ HttpClient client = HttpClient.newHttpClient();
+
+ String apiUrl = "http://localhost:3000/convert";
+
+ String requestBody = "{\"amount_in_rs\": 1000}";
+
+ HttpRequest request = HttpRequest.newBuilder()
+ .uri(URI.create(apiUrl))
+ .header("Content-Type", "application/json")
+ .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+ .build();
+
+ HttpResponse<String> response =
+ client.send(request, HttpResponse.BodyHandlers.ofString());
+
+ System.out.println("Response Code: " + response.statusCode());
+ System.out.println("Response Body: " + response.body());
+ }
+}
+Step 10 — Compile and Run
+
+Run in terminal:
+
+javac JavaClient.java
+
+then
+
+java JavaClient
+
+Output:
+
+Response Code: 200
+Response Body: {"amount_in_usd":14.5}

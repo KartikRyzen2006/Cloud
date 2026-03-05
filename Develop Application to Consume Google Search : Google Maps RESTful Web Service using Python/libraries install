@@ -1,0 +1,10 @@
+winget install Python.Python.3
+
+pip install requests
+
+mkdir google-api-project
+cd google-api-project
+
+code .
+
+python google_api_consumer.py

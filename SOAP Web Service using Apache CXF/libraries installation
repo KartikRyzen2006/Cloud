@@ -1,0 +1,13 @@
+winget install Oracle.JDK.17
+winget install Apache.Maven
+
+mvn archetype:generate -DgroupId=com.example -DartifactId=SimpleSOAPService -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+cd SimpleSOAPService
+
+code .
+
+mvn clean install
+mvn compile
+
+mvn exec:java -Dexec.mainClass="com.example.Server"

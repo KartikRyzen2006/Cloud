@@ -1,0 +1,16 @@
+winget install Oracle.JDK.17
+winget install Apache.Maven
+winget install Amazon.AWSCLI
+
+mvn archetype:generate -DgroupId=com.example -DartifactId=aws-flow-demo -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+cd aws-flow-demo
+
+code .
+
+mvn clean install
+mvn compile
+
+aws configure
+
+mvn exec:java -Dexec.mainClass="com.example.WorkerStarter"

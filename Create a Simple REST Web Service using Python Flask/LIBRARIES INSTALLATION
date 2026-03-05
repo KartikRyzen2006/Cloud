@@ -1,0 +1,10 @@
+winget install Python.Python.3
+
+pip install flask
+
+mkdir flask-rest-service
+cd flask-rest-service
+
+code .
+
+python app.py

@@ -1,0 +1,10 @@
+<dependency>
+ <groupId>software.amazon.awssdk</groupId>
+ <artifactId>aws-sdk-java</artifactId>
+</dependency>
+
+<dependency>
+ <groupId>software.amazon.aws</groupId>
+ <artifactId>aws-flow-sdk</artifactId>
+ <version>2.x</version>
+</dependency>

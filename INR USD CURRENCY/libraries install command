@@ -1,0 +1,16 @@
+winget install OpenJS.NodeJS
+winget install Oracle.JDK.17
+winget install Microsoft.DotNet.SDK.8
+winget install Postman.Postman
+
+npm init -y
+npm install express body-parser
+
+//PRAC A
+node server.js
+
+//PRAC C
+javac JavaClient.java
+java JavaClient
+
+

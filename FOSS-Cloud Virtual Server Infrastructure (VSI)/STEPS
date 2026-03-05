@@ -1,0 +1,116 @@
+Step 1 – Start Installation
+
+Start the FOSS-Cloud installer and select:
+
+Single Server Installation
+
+This installs all components on one machine.
+
+Step 2 – Configure Network Interface
+
+Check available interfaces:
+
+ip addr
+
+Select network interface such as:
+
+eth0
+Step 3 – Configure Domain and IP
+
+Enter network details during installation:
+
+Domain Name : foss-cloud.org
+Static IP   : 192.168.1.100
+Gateway     : 192.168.1.1
+DNS         : 8.8.8.8
+
+This sets the server network configuration.
+
+Step 4 – Confirm Installation
+
+The installer will install all required components including:
+
+Virtual machine manager
+
+Storage services
+
+Network services
+
+After installation, reboot the system.
+
+Step 5 – Access Administrator Page
+
+Open a web browser and enter:
+
+http://192.168.1.100
+
+Login credentials:
+
+Username : admin
+Password : admin
+
+This opens the FOSS-Cloud dashboard.
+
+Step 6 – Upload ISO File
+
+Navigate in dashboard:
+
+Virtual Machine → Upload ISO
+
+Upload operating system image such as:
+
+Ubuntu ISO
+Windows ISO
+
+This ISO will be used to create virtual machines.
+
+Step 7 – Create VM Template
+
+Configure the virtual machine template with parameters:
+
+Template Name
+Operating System Type
+CPU Allocation
+Memory Allocation
+Disk Size
+Network Interface
+
+This template will be used to create new VMs.
+
+Step 8 – Deploy Virtual Machine
+
+Navigate:
+
+VM Templates → Run
+
+The system will start a new virtual machine.
+
+The VM status changes to:
+
+Running
+Step 9 – Access Virtual Machine
+
+To access the VM:
+
+Download SPICE client tool
+
+Click the connection link
+
+Enter VM password
+
+The VM desktop window will open.
+
+Step 10 – Manage Virtual Resources
+
+Administrator can perform the following tasks:
+
+Create multiple virtual machines
+Allocate storage
+Configure networks
+Monitor VM status
+Stop or restart VMs
+Output
+FOSS-Cloud installed successfully
+ISO image uploaded
+VM template created
+Virtual machine deployed and running

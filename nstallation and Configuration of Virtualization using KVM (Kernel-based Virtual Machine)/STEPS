@@ -1,0 +1,105 @@
+⚠️ Important: This practical must be done on Linux (Ubuntu). KVM cannot be installed on Windows directly.
+
+Practical 5 — Steps (Ubuntu / Linux)
+1️⃣ Check Virtualization Support
+
+Open terminal and run:
+
+egrep -c '(vmx|svm)' /proc/cpuinfo
+
+Output:
+
+1
+
+If output > 0, virtualization is supported. 
+
+CLOUD COMPUTING AND WEB SERVICE…
+
+2️⃣ Update System
+sudo apt update
+3️⃣ Install KVM and Required Packages
+
+Run:
+
+sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager -y
+
+These packages install:
+
+KVM
+
+QEMU
+
+libvirt
+
+Virtual Machine Manager
+
+4️⃣ Add User to KVM Group
+
+Run:
+
+sudo adduser $USER libvirtd
+
+Then logout and login again.
+
+5️⃣ Verify Installation
+
+Run:
+
+virsh -c qemu:///system list
+
+Output example:
+
+ Id   Name   State
+--------------------
+
+Empty list means no VM created yet. 
+
+CLOUD COMPUTING AND WEB SERVICE…
+
+6️⃣ Open Virtual Machine Manager
+
+Run:
+
+virt-manager
+
+GUI window will open.
+
+7️⃣ Create New Virtual Machine
+
+In Virtual Machine Manager:
+
+Click Create New Virtual Machine
+
+Select ISO Image
+
+Choose OS type (Linux/Windows)
+
+Allocate:
+
+RAM
+CPU
+
+Create Virtual Disk
+
+Click Finish
+
+8️⃣ Install Operating System
+
+Select Ubuntu / Windows ISO
+
+Start installation
+
+Follow normal OS installation steps.
+
+9️⃣ Start the Virtual Machine
+
+Click:
+
+Start
+
+The VM will boot into the installed OS.
+
+Expected Output
+KVM installed successfully
+Virtual Machine Manager running
+Virtual machine created and started

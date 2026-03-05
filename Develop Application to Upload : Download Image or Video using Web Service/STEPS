@@ -1,0 +1,110 @@
+Practical 6 — Steps (VS Code)
+1️⃣ Install Node.js
+
+Check:
+
+node -v
+npm -v
+
+If not installed:
+
+winget install OpenJS.NodeJS
+2️⃣ Create Project Folder
+mkdir file-upload-service
+cd file-upload-service
+
+Open in VS Code:
+
+code .
+3️⃣ Initialize Node Project
+npm init -y
+4️⃣ Install Required Packages
+npm install express multer cors
+
+Packages used:
+
+Express → Web server
+
+Multer → File upload handling
+
+CORS → API access control
+
+5️⃣ Create Server File
+
+Create file:
+
+server.js
+6️⃣ Write Upload API Code
+const express = require("express");
+const multer = require("multer");
+const cors = require("cors");
+
+const app = express();
+app.use(cors());
+
+const storage = multer.diskStorage({
+ destination: function (req, file, cb) {
+  cb(null, "uploads/");
+ },
+ filename: function (req, file, cb) {
+  cb(null, Date.now() + "-" + file.originalname);
+ }
+});
+
+const upload = multer({ storage: storage });
+
+app.post("/upload", upload.single("file"), (req, res) => {
+ res.json({
+  message: "File uploaded successfully",
+  file: req.file.filename
+ });
+});
+
+app.listen(3000, () => {
+ console.log("Server running on http://localhost:3000");
+});
+
+This API uploads image/video files to the server folder.
+
+7️⃣ Create Upload Folder
+mkdir uploads
+
+Uploaded files will be stored here.
+
+8️⃣ Run the Server
+node server.js
+
+Output:
+
+Server running on http://localhost:3000
+9️⃣ Test Using Postman
+Method
+POST
+URL
+http://localhost:3000/upload
+Body
+
+Select:
+
+form-data
+
+Add key:
+
+file
+
+Upload image/video file.
+
+🔟 Response
+{
+ "message": "File uploaded successfully",
+ "file": "1712345678-image.png"
+}
+
+Uploaded file appears inside:
+
+uploads/
+Expected Output
+
+✔ File uploaded successfully
+✔ Image/video stored on server
+✔ API response returned.

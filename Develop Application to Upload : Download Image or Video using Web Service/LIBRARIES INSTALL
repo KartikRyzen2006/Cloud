@@ -1,0 +1,12 @@
+winget install OpenJS.NodeJS
+
+mkdir file-upload-service
+cd file-upload-service
+
+npm init -y
+
+npm install express multer cors
+
+mkdir uploads
+
+node server.js
