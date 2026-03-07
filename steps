@@ -1,0 +1,269 @@
+Practical 1 – Steps to Perform in VS Code
+Temperature Conversion Web Service (Celsius ↔ Fahrenheit)
+
+1️⃣ Install Required Software
+
+Before starting, make sure these are installed:
+
+Node.js
+VS Code
+Postman (for testing)
+Java JDK 11+
+.NET SDK
+
+These are the software requirements for creating and consuming the web service.
+
+---
+
+PART A — Create Web Service (Node.js)
+
+Step 1 — Open VS Code
+
+Open VS Code
+Click **File → Open Folder**
+
+Create a new folder
+
+Example:
+
+temperature-service
+
+---
+
+Step 2 — Open Terminal in VS Code
+
+Press:
+
+Ctrl + `
+
+or
+
+Terminal → New Terminal
+
+---
+
+Step 3 — Initialize Node Project
+
+Run the command:
+
+npm init -y
+
+This creates:
+
+package.json
+
+---
+
+Step 4 — Install Required Packages
+
+Run:
+
+npm install express body-parser
+
+This installs the libraries required for the web service.
+
+---
+
+Step 5 — Create Server File
+
+Create a new file:
+
+server.js
+
+Paste the following code:
+
+```javascript
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.json());
+
+app.post('/convert', (req, res) => {
+
+ const { value, type } = req.body;
+
+ let result;
+
+ if(type === "CtoF"){
+     result = (value * 9/5) + 32;
+     res.json({ fahrenheit: result });
+ }
+
+ else if(type === "FtoC"){
+     result = (value - 32) * 5/9;
+     res.json({ celsius: result });
+ }
+
+ else{
+     res.status(400).json({ error: "Invalid conversion type" });
+ }
+
+});
+
+app.listen(port, () => {
+ console.log(`Temperature conversion service running at http://localhost:${port}`);
+});
+```
+
+This code creates a **Celsius ↔ Fahrenheit temperature conversion API**.
+
+---
+
+Step 6 — Run the Server
+
+In VS Code terminal run:
+
+node server.js
+
+Output:
+
+Temperature conversion service running at http://localhost:3000
+
+---
+
+PART B — Test API Using Postman
+
+Step 7 — Open Postman
+
+Select **POST** method
+
+Enter URL:
+
+http://localhost:3000/convert
+
+---
+
+Step 8 — Add Request Body
+
+Go to:
+
+Body → Raw → JSON
+
+Write:
+
+```json
+{
+ "value": 25,
+ "type": "CtoF"
+}
+```
+
+Click **Send**
+
+---
+
+Step 9 — Output
+
+You will get:
+
+```json
+{
+ "fahrenheit": 77
+}
+```
+
+Explanation:
+
+Celsius → Fahrenheit formula
+
+F = (C × 9/5) + 32
+
+So,
+
+25°C = 77°F
+
+---
+
+Example 2 — Fahrenheit to Celsius
+
+Request:
+
+```json
+{
+ "value": 77,
+ "type": "FtoC"
+}
+```
+
+Response:
+
+```json
+{
+ "celsius": 25
+}
+```
+
+Formula used:
+
+C = (F − 32) × 5/9
+
+---
+
+PART C — Run Java Client
+
+Create file:
+
+JavaClient.java
+
+Paste code:
+
+```java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+public class JavaClient {
+
+ public static void main(String[] args) throws Exception {
+
+  HttpClient client = HttpClient.newHttpClient();
+
+  String apiUrl = "http://localhost:3000/convert";
+
+  String requestBody = "{\"value\":25,\"type\":\"CtoF\"}";
+
+  HttpRequest request = HttpRequest.newBuilder()
+   .uri(URI.create(apiUrl))
+   .header("Content-Type","application/json")
+   .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+   .build();
+
+  HttpResponse<String> response =
+   client.send(request, HttpResponse.BodyHandlers.ofString());
+
+  System.out.println("Response Code: " + response.statusCode());
+  System.out.println("Response Body: " + response.body());
+ }
+}
+```
+
+---
+
+Step 10 — Compile and Run
+
+Run in terminal:
+
+javac JavaClient.java
+
+then
+
+java JavaClient
+
+---
+
+Output
+
+Response Code: 200
+Response Body: {"fahrenheit":77}
+
+---
+
+Result
+
+The RESTful Web Service for **temperature conversion (Celsius ↔ Fahrenheit)** was successfully created using **Node.js and Express**.
+
+The service was successfully consumed using a **Java Client application**, and the temperature values were converted correctly.
